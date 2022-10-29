@@ -1,44 +1,53 @@
 import "./styles.scss";
-import { EditorState } from "prosemirror-state";
 import "prosemirror-view/style/prosemirror.css";
-import { history } from "prosemirror-history";
-import { EditorView } from "prosemirror-view";
 import applyDevTools from "prosemirror-dev-tools";
-import { schema } from "./schema";
-import { keymap } from "./keymap";
+import { Component } from "solid-js";
+import { DevtoolsOverlay } from "@solid-devtools/overlay";
+import { EditorState } from "prosemirror-state";
+import { EditorView } from "prosemirror-view";
+import { history } from "prosemirror-history";
 import { inputRules } from "./inputRules";
+import { keymap } from "./keymap";
 import { nodeViews } from "./nodeViews";
 import { render } from "solid-js/web";
-import { onMount } from "solid-js";
+import { schema } from "./schema";
+import { EditorContent } from "./EditorContent";
 
 let appRoot = document.getElementById("app")! as HTMLDivElement;
 
-function Editor() {
-  let editorViewEl: HTMLDivElement;
 
-  onMount(() => {
-    const state = EditorState.create({
-      doc: schema.node("doc", null, [schema.node("paragraph")]),
-      plugins: [history(), keymap, inputRules],
-    });
-
-    const view = new EditorView(editorViewEl, {
-      state,
-      nodeViews,
-    });
-
-    if (import.meta.env.DEV) {
-      applyDevTools(view);
-    }
-  });
-
+const App: Component = () => {
   return (
-    <div
+    <EditorContent
       class="ed-page"
-      // @ts-ignore
-      ref={editorViewEl}
-    ></div>
-  );
-}
+      ref={(editorViewEl) => {
+        const state = EditorState.create({
+          doc: schema.node("doc", null, [schema.node("paragraph")]),
+          plugins: [history(), keymap, inputRules],
+        });
 
-render(() => <Editor />, appRoot);
+        const view = new EditorView(editorViewEl, {
+          state,
+          nodeViews,
+        });
+
+        if (import.meta.env.DEV) {
+          applyDevTools(view);
+        }
+      }}
+    />
+  );
+};
+
+render(
+  () =>
+    import.meta.env.PROD ? (
+      <App />
+    ) : (
+      <>
+        <App />
+        <DevtoolsOverlay />
+      </>
+    ),
+  appRoot
+);

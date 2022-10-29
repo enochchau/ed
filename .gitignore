@@ -1,4 +1,5 @@
 # Logs
+Session.vim
 logs
 *.log
 npm-debug.log*

@@ -2,6 +2,8 @@
 
 working name: Ice
 
+> Water, the original mirror, turned solid
+
 ProseMirror bindings for SolidJS.
 
 ## Plugin Architecture
@@ -11,5 +13,4 @@ ProseMirror bindings for SolidJS.
 
 ## Todo
 
-- revert portaling to a mounted div
 - typescript defs for editor schema

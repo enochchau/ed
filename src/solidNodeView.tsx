@@ -6,34 +6,30 @@ export type StyleDOMNode = (node: HTMLDivElement) => void;
 
 type ConstructorParams = Parameters<NodeViewConstructor>;
 
-export interface SolidNodeViewProps<
-  Dom extends HTMLElement = HTMLElement,
-  ContentDOM extends HTMLElement = any
-> {
+export interface SolidNodeViewProps<ContentDOM extends HTMLElement = any> {
   node: Parameters<NodeViewConstructor>[0];
   view: Parameters<NodeViewConstructor>[1];
   getPos: Parameters<NodeViewConstructor>[2];
   decorations: Parameters<NodeViewConstructor>[3];
   innerDecorations: Parameters<NodeViewConstructor>[4];
-  ref: { dom: Dom; contentDOM?: ContentDOM };
+  ref: ContentDOM;
 }
 
-export class SolidNodeView<
-  Dom extends HTMLElement = HTMLElement,
-  ContentDOM extends HTMLElement = any
-> implements NodeView
+export class SolidNodeView<ContentDOM extends HTMLElement = any>
+  implements NodeView
 {
-  dom!: Dom;
+  dom: HTMLDivElement;
   contentDOM?: ContentDOM;
   id: string;
   element: JSXElement;
 
   constructor(
-    C: Component<SolidNodeViewProps<Dom, ContentDOM>>,
+    C: Component<SolidNodeViewProps<ContentDOM>>,
     ...args: ConstructorParams
   ) {
     let [node, view, getPos, decorations, innerDecorations] = args;
     this.id = Math.floor(Math.random() * 0xffffffff).toString();
+    this.dom = document.createElement("div");
 
     this.element = (
       <C
@@ -42,11 +38,15 @@ export class SolidNodeView<
         getPos={getPos}
         decorations={decorations}
         innerDecorations={innerDecorations}
-        ref={this}
+        // @ts-ignore
+        ref={this.contentDOM}
       />
     );
 
-    rendererStore.addRenderer(this.id, this);
+    rendererStore.addRenderer(this.id, {
+      element: this.element,
+      mount: this.dom,
+    });
   }
 
   destroy() {
@@ -55,8 +55,6 @@ export class SolidNodeView<
 }
 
 export const createSolidNodeView =
-  <El extends HTMLElement>(
-    C: Component<SolidNodeViewProps<El>>,
-  ) =>
+  <El extends HTMLElement>(C: Component<SolidNodeViewProps<El>>) =>
   (...args: Parameters<NodeViewConstructor>) =>
     new SolidNodeView(C, ...args);

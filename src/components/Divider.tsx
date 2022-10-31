@@ -4,5 +4,5 @@ import { SolidNodeViewProps } from "../solidNodeView";
 export const Divider: Component<SolidNodeViewProps<HTMLHRElement>> = (
   props
 ) => {
-  return <hr ref={props.ref.dom} />;
+  return <hr ref={props.ref} />;
 };

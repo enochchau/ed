@@ -7,13 +7,13 @@ export const Heading: Component<SolidNodeViewProps<HTMLHeadingElement>> = (
   return (
     <Switch>
       <Match when={props.node.attrs.size === 1}>
-        <h1 ref={props.ref.dom} />
+        <h1 ref={props.ref} />
       </Match>
       <Match when={props.node.attrs.size === 2}>
-        <h2 ref={props.ref.dom} />
+        <h2 ref={props.ref} />
       </Match>
       <Match when={props.node.attrs.size === 3}>
-        <h3 ref={props.ref.dom} />
+        <h3 ref={props.ref} />
       </Match>
     </Switch>
   );

@@ -11,4 +11,5 @@ ProseMirror bindings for SolidJS.
 
 ## Todo
 
+- revert portaling to a mounted div
 - typescript defs for editor schema

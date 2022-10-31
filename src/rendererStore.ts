@@ -3,6 +3,7 @@ import { createStore } from "solid-js/store";
 
 export interface Renderer {
   element: JSXElement;
+  mount: HTMLDivElement;
 }
 const createRenderers = () => {
   let [renderers, setRenderers] = createStore<Record<string, Renderer>>({});
@@ -10,7 +11,7 @@ const createRenderers = () => {
     setRenderers({ [id]: undefined });
   };
   const addRenderer = (id: string, renderer: Renderer) => {
-    setRenderers({ [id]: { element: renderer.element } });
+    setRenderers({ [id]: renderer });
   };
   return { renderers, deleteRenderer, addRenderer };
 };

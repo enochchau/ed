@@ -12,7 +12,7 @@ function parseHTMLStringToPMNode(schema: Schema, content: string) {
 
 export interface EditorConstructorParams {
   plugins: (NodePlugin | BasicPlugin | MarkPlugin)[];
-  content: string | Node | ReturnType<typeof JSON.parse>;
+  content: string | ((schema: Schema) => Node) | Record<string, any>;
   bindingElement: HTMLElement;
 }
 
@@ -46,9 +46,9 @@ export class Editor {
         doc: parseHTMLStringToPMNode(this.schema, content),
         ...editorConfig,
       });
-    } else if (content instanceof Node) {
+    } else if (typeof content === "function") {
       // do nothing
-      let doc = content;
+      let doc = content(this.schema);
       this.state = EditorState.create({ doc, ...editorConfig });
     } else {
       this.state = EditorState.fromJSON(editorConfig, content);

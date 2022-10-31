@@ -1,4 +1,3 @@
-import { redo, undo } from "prosemirror-history";
 import {
   chainCommands,
   deleteSelection,
@@ -14,8 +13,6 @@ import { BasicPlugin } from "../plugin";
 export const keymapPlugin = new BasicPlugin({
   name: 'keymap',
   keymap: {
-    "Mod-z": undo,
-    "Mod-y": redo,
     Enter: splitBlock,
     Backspace: chainCommands(
       deleteSelection,

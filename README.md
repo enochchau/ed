@@ -8,3 +8,7 @@ ProseMirror bindings for SolidJS.
 
 - Keymap
 - Input rules
+
+## Todo
+
+- typescript defs for editor schema

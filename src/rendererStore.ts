@@ -10,7 +10,7 @@ const createRenderers = () => {
     setRenderers({ [id]: undefined });
   };
   const addRenderer = (id: string, renderer: Renderer) => {
-    setRenderers({ [id]: renderer });
+    setRenderers({ [id]: { element: renderer.element } });
   };
   return { renderers, deleteRenderer, addRenderer };
 };

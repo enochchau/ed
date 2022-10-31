@@ -1,3 +1,10 @@
 # Ed
 
-This is a WIP notion clone.
+working name: Ice
+
+ProseMirror bindings for SolidJS.
+
+## Plugin Architecture
+
+- Keymap
+- Input rules

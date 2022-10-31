@@ -9,7 +9,7 @@ export const EditorContent: Component<JSX.HTMLAttributes<HTMLDivElement>> = (
   return (
     <div {...props}>
       <For each={Object.values(renderers)}>
-        {(item) => <Portal mount={item.dom}>{item.element}</Portal>}
+        {(item) => <Portal>{item.element}</Portal>}
       </For>
     </div>
   );

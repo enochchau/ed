@@ -1,7 +1,5 @@
-import {
-  InputRule,
-  inputRules as inputRulesPlugin,
-} from "prosemirror-inputrules";
+import { InputRule } from "prosemirror-inputrules";
+import { BasicPlugin } from "../plugin";
 
 let divider: InputRule = new InputRule(
   /^--- $/,
@@ -24,6 +22,7 @@ let heading: InputRule = new InputRule(
   }
 );
 
-export const inputRules = inputRulesPlugin({
-  rules: [divider, heading],
-});
+export const inputRulesPlugin = new BasicPlugin({
+  name: 'inputRules',
+  inputRules: [divider, heading]
+})

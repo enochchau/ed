@@ -3,7 +3,6 @@ import { createStore } from "solid-js/store";
 
 export interface Renderer {
   element: JSXElement;
-  dom: HTMLElement;
 }
 const createRenderers = () => {
   let [renderers, setRenderers] = createStore<Record<string, Renderer>>({});

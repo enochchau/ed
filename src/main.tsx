@@ -6,24 +6,36 @@ import { DevtoolsOverlay } from "@solid-devtools/overlay";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { history } from "prosemirror-history";
-import { inputRules } from "./inputRules";
-import { keymap } from "./keymap";
 import { nodeViews } from "./nodeViews";
 import { render } from "solid-js/web";
 import { schema } from "./schema";
 import { EditorContent } from "./EditorContent";
+import { PluginManager } from "./pluginManager";
+import { keymapPlugin } from "./plugins/keymap";
+import { keymap } from "prosemirror-keymap";
+import { inputRules } from "prosemirror-inputrules";
+import { inputRulesPlugin } from "./plugins/inputRules";
 
 let appRoot = document.getElementById("app")! as HTMLDivElement;
-
 
 const App: Component = () => {
   return (
     <EditorContent
       class="ed-page"
       ref={(editorViewEl) => {
+        const pluginManager = new PluginManager([
+          keymapPlugin,
+          inputRulesPlugin,
+        ]);
+
         const state = EditorState.create({
           doc: schema.node("doc", null, [schema.node("paragraph")]),
-          plugins: [history(), keymap, inputRules],
+          schema,
+          plugins: [
+            history(),
+            keymap(pluginManager.keymap),
+            inputRules({ rules: pluginManager.inputRules }),
+          ],
         });
 
         const view = new EditorView(editorViewEl, {

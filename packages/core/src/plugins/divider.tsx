@@ -4,7 +4,7 @@ import { NodePlugin } from "../plugin";
 import { createSolidNodeView, SolidNodeViewProps } from "../solidNodeView";
 
 const Divider: Component<SolidNodeViewProps<HTMLHRElement>> = (props) => {
-  return <hr ref={props.ref} />;
+  return <hr ref={props.ref} data-id={props.id} />;
 };
 
 export const dividerPlugin = new NodePlugin({

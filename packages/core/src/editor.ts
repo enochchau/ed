@@ -14,6 +14,7 @@ export interface EditorConstructorParams {
   plugins: (NodePlugin | BasicPlugin | MarkPlugin)[];
   content: string | ((schema: Schema) => Node) | Record<string, any>;
   bindingElement: HTMLElement;
+  onDragEnd?: () => void;
 }
 
 export class Editor {
@@ -21,8 +22,15 @@ export class Editor {
   view: EditorView;
   schema: Schema;
   pluginManager: PluginManager;
+  onDragEnd?: () => void;
 
-  constructor({ plugins, bindingElement, content }: EditorConstructorParams) {
+  constructor({
+    plugins,
+    bindingElement,
+    content,
+    onDragEnd,
+  }: EditorConstructorParams) {
+    this.onDragEnd = onDragEnd;
     this.pluginManager = new PluginManager(plugins);
     this.schema = new Schema({
       nodes: this.pluginManager.nodes,

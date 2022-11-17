@@ -7,11 +7,12 @@ export type StyleDOMNode = (node: HTMLDivElement) => void;
 type ConstructorParams = Parameters<NodeViewConstructor>;
 
 export interface SolidNodeViewProps<ContentDOM extends HTMLElement = any> {
-  node: Parameters<NodeViewConstructor>[0];
-  view: Parameters<NodeViewConstructor>[1];
-  getPos: Parameters<NodeViewConstructor>[2];
-  decorations: Parameters<NodeViewConstructor>[3];
-  innerDecorations: Parameters<NodeViewConstructor>[4];
+  id: string;
+  node: ConstructorParams[0];
+  view: ConstructorParams[1];
+  getPos: ConstructorParams[2];
+  decorations: ConstructorParams[3];
+  innerDecorations: ConstructorParams[4];
   ref: ContentDOM;
 }
 
@@ -21,7 +22,7 @@ export class SolidNodeView<ContentDOM extends HTMLElement = any>
   dom: HTMLDivElement;
   contentDOM?: ContentDOM;
   id: string;
-  element: JSXElement;
+  element: () => JSXElement;
 
   constructor(
     C: Component<SolidNodeViewProps<ContentDOM>>,
@@ -31,8 +32,9 @@ export class SolidNodeView<ContentDOM extends HTMLElement = any>
     this.id = Math.floor(Math.random() * 0xffffffff).toString();
     this.dom = document.createElement("div");
 
-    this.element = (
+    this.element = () => (
       <C
+        id={this.id}
         node={node}
         view={view}
         getPos={getPos}
@@ -56,5 +58,5 @@ export class SolidNodeView<ContentDOM extends HTMLElement = any>
 
 export const createSolidNodeView =
   <El extends HTMLElement>(C: Component<SolidNodeViewProps<El>>) =>
-  (...args: Parameters<NodeViewConstructor>) =>
+  (...args: ConstructorParams) =>
     new SolidNodeView(C, ...args);

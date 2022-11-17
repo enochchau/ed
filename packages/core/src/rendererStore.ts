@@ -2,7 +2,7 @@ import { createRoot, JSXElement } from "solid-js";
 import { createStore } from "solid-js/store";
 
 export interface Renderer {
-  element: JSXElement;
+  element: () => JSXElement;
   mount: HTMLDivElement;
 }
 const createRenderers = () => {

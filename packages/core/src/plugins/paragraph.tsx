@@ -1,6 +1,13 @@
-import { Paragraph } from "../components/Paragraph";
+import { Component } from "solid-js";
+import { SolidNodeViewProps } from "../solidNodeView";
 import { NodePlugin } from "../plugin";
 import { createSolidNodeView } from "../solidNodeView";
+
+const Paragraph: Component<SolidNodeViewProps<HTMLParagraphElement>> = (
+  props
+) => {
+  return <p ref={props.ref} />;
+};
 
 export const paragraphPlugin = new NodePlugin({
   name: "paragraph",
@@ -13,5 +20,5 @@ export const paragraphPlugin = new NodePlugin({
     },
     parseDOM: [{ tag: "p" }],
   },
-  nodeView: createSolidNodeView(Paragraph)
+  nodeView: createSolidNodeView(Paragraph),
 });

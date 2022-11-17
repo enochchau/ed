@@ -1,7 +1,11 @@
 import { InputRule } from "prosemirror-inputrules";
-import { Divider } from "../components/Divider";
+import { Component } from "solid-js";
 import { NodePlugin } from "../plugin";
-import { createSolidNodeView } from "../solidNodeView";
+import { createSolidNodeView, SolidNodeViewProps } from "../solidNodeView";
+
+const Divider: Component<SolidNodeViewProps<HTMLHRElement>> = (props) => {
+  return <hr ref={props.ref} />;
+};
 
 export const dividerPlugin = new NodePlugin({
   name: "divider",
